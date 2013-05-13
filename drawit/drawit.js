@@ -275,15 +275,39 @@ FillTool.prototype = {
 
     uname : "FillTool",
     displayName : "Fill Tool",
-    icon: "images/icon/pencil.png",
+    icon: "images/icons/pencil.png",
 
     onmousedown : function(e) {},
-    onmouseup : function(e) {},
+    onmouseup : function(e) {
+        var point = getMousePosition(e);
+        this.rColor = ctx.getImageData(point.x, point.y, 1, 1);
+        this.recursiveFill(point.x, point.y);
+    },
     drawElement : function(element) { },
     onmousemove : function(e) {},
     onmouseout : function(e) {},
-    getSettingsMenu : function() {}
+    getSettingsMenu : function() {},
 
+    recursiveFill : function(x, y) {
+        var cp = new jscolor.color(document.getElementById("foregroundColor"));
+        var imgdata = ctx.getImageData(x, y, 1, 1);
+
+        if(imgdata.data[0] == this.rColor.data[0] && 
+            imgdata.data[1] == this.rColor.data[1] &&
+            imgdata.data[2] == this.rColor.data[2]) {
+
+            imgdata.data[0] = cp.rgb[0]*256;
+            imgdata.data[1] = cp.rgb[1]*256;
+            imgdata.data[2] = cp.rgb[2]*256;
+
+            ctx.putImageData(imgdata, x, y);
+
+            this.recursiveFill(x+1, y);
+            this.recursiveFill(x, y+1);
+            this.recursiveFill(x-1, y);
+            this.recursiveFill(x, y-1);
+        }
+    }
 };
 
 //---------------------------------------------------------
@@ -313,8 +337,8 @@ var foregroundColor;
 var backgroundColor;
 
 $(function() {
-    canvas = document.getElementById('canvas'),
-            ctx = canvas.getContext('2d');
+    canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
 
     // resize the canvas to fill browser window dynamically
     // window.addEventListener('resize', resizeCanvas, false);
@@ -324,6 +348,14 @@ $(function() {
             canvas.height = window.innerHeight;
     }
     resizeCanvas();
+
+    setFillColor("FFFFFF");
+    ctx.fillRect(
+        0, 
+        0, 
+        canvas.width, 
+        canvas.height
+    );
 
     canvas.onmousemove = function(e) {
         canvasmousemove(e);
