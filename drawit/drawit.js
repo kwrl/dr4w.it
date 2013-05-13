@@ -268,6 +268,28 @@ PencilTool.prototype = {
 //---------------------------------------------------------
 //---------------------------------------------------------
 //---------------------------------------------------------
+
+var FillTool = function() {}
+
+FillTool.prototype = {
+
+    uname : "FillTool",
+    displayName : "Fill Tool",
+    icon: "images/icon/pencil.png",
+
+    onmousedown : function(e) {},
+    onmouseup : function(e) {},
+    drawElement : function(element) { },
+    onmousemove : function(e) {},
+    onmouseout : function(e) {},
+    getSettingsMenu : function() {}
+
+};
+
+//---------------------------------------------------------
+//---------------------------------------------------------
+//---------------------------------------------------------
+
 // Selve drawit-objektet.
 // Inneholder liste over tools og diverse annet kult
 var drawit = new Drawit();
@@ -275,6 +297,7 @@ var drawit = new Drawit();
 var squareTool = new SquareTool();
 var circleTool = new CircleTool();
 var pencilTool = new PencilTool();
+var fillTool = new FillTool();
 // Noen placeholders.
 // Disse skal overrides av toolsene
 // Blir kalt fra canvas-eventsene
@@ -321,6 +344,8 @@ $(function() {
     drawit.addTool(squareTool);
     drawit.addTool(circleTool);
     drawit.addTool(pencilTool);
+    drawit.addTool(fillTool);
+
     $("#colorSwapper").click(function() {
         var temp = foregroundColor;
         foregroundColor = backgroundColor;
