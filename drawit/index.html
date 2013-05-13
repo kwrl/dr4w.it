@@ -2,12 +2,23 @@
     <head>
         <title>draw.it</title>
         <link rel="stylesheet" href="stil.css"/>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/eggplant/jquery-ui.css"/>
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script type="text/javascript" src="jscolor/jscolor.js"></script>
         <script src="drawit.js"></script>
         <style>
+
+        body {
+            /* 
+            Firefox har default margin på 8px o.O
+            */
+            margin: 0 auto;
+        }
         canvas {
-        	border: solid 3px red;
             position: absolute;
+            left:0;
+            top:0;
             width: 100%;
             height: 100%;
         }
@@ -18,7 +29,59 @@
             height: 100%;
         }
 
+        .color {
+            width: 20px;
+            text-indent: -9999px;   
+        }
 
+        .color:focus {
+            width: 50px;
+            text-indent: 0px;  
+        }
+
+        #draggable { 
+            width: 150px; 
+            padding: 0.5em; 
+            float: left; 
+            margin: 0 5px 5px 0; 
+            position: absolute;
+            left: 5;
+            top: 5;
+        }
+
+        #draggable p { 
+            cursor: move; 
+        }
+
+         .tool_button {
+            background-color: transparent; /* make the button transparent */
+            background-repeat: no-repeat;  /* make the background image appear only once */
+            background-position: 0px 0px;  /* equivalent to 'top left' */
+            border: none;           /* assuming we don't want any borders */
+            cursor: pointer;        /* make the cursor like hovering over an <a> element */
+            height: 30px;           /* make this the size of your image */
+            width: 30px;
+            vertical-align: middle; /* align the text vertically centered */
+            margin: 2px;
+        }
+
+        .tool_button:hover {
+            border: solid 1px red;
+        }
+
+        #colorSwapper {
+            float: right;
+        }
+
+        .ui-widget-header {
+            margin-top: 2px;
+            margin-bottom: 2px;
+            padding-left: 5px;
+        }
+
+        #toolMenuWrapper {
+            margin-top: 10px;
+        }
         </style>
     </head>
     <body>
@@ -31,10 +94,21 @@
                 
             </canvas>
         </div>
-        <div id="tools">
-        	
-        </div>
-        <div id="toolSettings">
+        <div id="draggable" class="ui-widget-content">
+            <p class="ui-widget-header" id="toolMenuHeader">Tools</p>
+
+            <div id="toolMenuWrapper">
+                <div id="tools">
+                	<input class="color" id="foregroundColor" value="000" title="Foreground Color"/>
+                    <input class="color" id="backgroundColor" value="FFF" title="Background Color"/>
+                    <input type="submit" id="colorSwapper" value="Swap" title="Swap boreground and background" /><br/>
+                    <hr/>
+                </div>
+                <hr/>
+                <div id="toolSettings">
+
+                </div>
+            </div>
         </div>
     </body>
 </html>
